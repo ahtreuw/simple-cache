@@ -6,7 +6,6 @@ use DateInterval;
 
 trait SimpleCacheTrait
 {
-
     public function getMultiple(iterable $keys, mixed $default = null): iterable
     {
         $values = [];

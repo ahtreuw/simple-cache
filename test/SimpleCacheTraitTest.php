@@ -13,6 +13,7 @@ class SimpleCacheTraitTest extends TestCase
 
     protected function setUp(): void
     {
+        $this->prefix = 'prefix:';
         $this->gateway = $this->createMock(CacheInterface::class);
     }
 
@@ -27,10 +28,10 @@ class SimpleCacheTraitTest extends TestCase
             ->willReturnCallback(function (string $key, mixed $defaultValue) use ($keys, $defaultValues, &$j): mixed {
                 self::assertSame($keys[$j++], $key);
 
-                if(is_string($defaultValues)){
+                if (is_string($defaultValues)) {
                     $returnValue = $defaultValues;
                     self::assertSame($defaultValues, $defaultValue);
-                }else{
+                } else {
                     $returnValue = $defaultValues[$key];
                     self::assertSame($defaultValues[$key], $defaultValue);
                 }
@@ -38,7 +39,7 @@ class SimpleCacheTraitTest extends TestCase
                 return $returnValue;
             });
 
-        $cache = new SimpleCache($this->gateway);
+        $cache = new CacheDecorator($this->gateway);
 
         $result = $cache->getMultiple($keys, $defaultValues);
 
@@ -69,7 +70,7 @@ class SimpleCacheTraitTest extends TestCase
                 return $return[$returnIndex++];
             });
 
-        $cache = new SimpleCache($this->gateway, $defaultTtl);
+        $cache = new CacheDecorator($this->gateway, $this->prefix, $defaultTtl);
 
         $result = $cache->setMultiple($data, $ttl);
 
@@ -100,7 +101,7 @@ class SimpleCacheTraitTest extends TestCase
                 return $return[$j++];
             });
 
-        $cache = new SimpleCache($this->gateway);
+        $cache = new CacheDecorator($this->gateway);
 
         $result = $cache->deleteMultiple($keys);
 
@@ -110,9 +111,9 @@ class SimpleCacheTraitTest extends TestCase
     public function deleteMultipleProvider(): array
     {
         return [
-            [['key-01', 'key-02'], [true,  true ], true],
-            [['key-01', 'key-02'], [false, true ], false],
-            [['key-01', 'key-02'], [true,  false], false],
+            [['key-01', 'key-02'], [true, true], true],
+            [['key-01', 'key-02'], [false, true], false],
+            [['key-01', 'key-02'], [true, false], false],
             [['key-01', 'key-02'], [false, false], false],
         ];
     }

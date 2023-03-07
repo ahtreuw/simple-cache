@@ -7,7 +7,7 @@ use Predis\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
 use Psr\SimpleCache\InvalidArgumentException;
 
-class PredisCache implements CacheInterface, Gateway
+class PredisCache implements CacheInterface
 {
     use SimpleCacheTrait;
 
@@ -67,10 +67,5 @@ class PredisCache implements CacheInterface, Gateway
             return date_create('@0')->add($ttl)->getTimestamp();
         }
         return is_int($ttl) ? $ttl : null;
-    }
-
-    public function getPrefix(): string
-    {
-        return $this->prefix;
     }
 }

@@ -8,6 +8,18 @@ Package is available on [Packagist], you can install it using [Composer].
 $ composer require vulpes/simple-cache
 ```
 
+## Components
+
+`Vulpes\SimpleCache\PredisCache`
+With the help of this adapter class, `predis\predis` package can be used according to the PSR-16 standards.
+
+`Vulpes\SimpleCache\NullCache`
+It closes the absence of an object by providing a replaceable alternative that offers a suitable default do-nothing behavior.
+
+`Vulpes\SimpleCache\CacheDecorator`
+Decorates the cache object under `CacheInterface` with default ttl and prefix setting.
+
+
 ## Usage
 ```php
 $pdo = new PDO(getenv('MYSQL_DSN'));
