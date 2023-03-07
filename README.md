@@ -8,11 +8,7 @@ Package is available on [Packagist], you can install it using [Composer].
 $ composer require vulpes/simple-cache
 ```
 
-## Use PredisCache
-To use PredisCache, you need to install the predis package:
-``` bash
-$ composer require predis/predis
-```
+## Usage
 ```php
 $pdo = new PDO(getenv('MYSQL_DSN'));
 $client = new Predis\Client(getenv('REDIS_DSN'));
